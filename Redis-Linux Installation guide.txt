@@ -1,0 +1,58 @@
+1.Install putty
+2. Get Linux server. login via putty using server IP and credential. Ensure port 22 eccess for the server is available.
+3.Get internet access for installation.
+4. Follow following steps in the CLI
+
+cd /
+
+curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
+
+sudo chmod 644 /usr/share/keyrings/redis-archive-keyring.gpg
+
+echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/redis.list
+
+sudo apt-get update
+
+sudo apt-get install redis-stack-server
+
+sudo touch /var/log/redis-stack-server.log
+
+sudo chmod 777 /var/log/redis-stack-server.log
+
+sudo nano /opt/redis-stack/bin/redis-stack-server
+
+delete few existing code lines from protected-mode, daemonize and all loadmoludes. Ctrl+X, Y , enter to save the file. 
+Download the redis.conf file
+
+sudo nano /etc/redis-stack.conf
+
+delete all content of the redis.conf file and replace it with the content of downloaded redis.conf, Ctrl+X, Y , enter to save the file. 
+
+To set up password (optional):
+requirepass <yourpassword>
+Or
+user default off
+user <Username>on ><Password> ~* &* +@all
+Example:
+ user ramcoadmin on >2ce7c76dd969cb141c469bb308de6412891bb670d7ce54da55db31bc87735c75 ~* &* +@all
+ user evolv on >aeac70a405c5bbfe5b1b9b083fcdcb6a3db8899dd12af52412cba21fd2e57941 ~* &* +@all -pexpire -del -spop -srem -rename -@dangerous
+generate new password, execute on redis cli - acl genpass 1600
+save the Redis config file.
+press control + X ---> press Y key --->Enter
+
+sudo nano /etc/systemd/system/redis-stack-server.service
+update the redis.conf path here in execstart command-> add /etc/redis-stack.conf, Ctrl+X, Y , enter to save the file.
+
+sudo systemctl enable --now redis-stack-server
+
+sudo systemctl start redis-stack-server
+
+sudo systemctl status redis-stack-server
+
+redis-cli -u redis://user:password@server_ip:6379 
+e.g redis-cli -u redis://admin:2ce7c76dd969cb141c469bb308de6412891bb670d7ce54da55db31bc87735c75@157.32.122:6379 
+
+keys *
+
+ft._list
+
