@@ -1,2 +1,2 @@
 # Redis
-Redis in linux and WSL
+Redis Stack installation in linux.
