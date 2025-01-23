@@ -1,0 +1,9 @@
+Overview:
+
+The project will use Redis to store tasks.
+Each task will have a title and a status (either "pending" or "completed").
+The user can:
+1.	Add a new task.
+2.	View all tasks.
+3.	Mark a task as completed.
+4.	View tasks by status (pending or completed).
